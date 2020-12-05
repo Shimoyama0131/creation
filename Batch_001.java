@@ -14,8 +14,12 @@ public class Batch_001 {
 	public List<Order> result(List<Order> orderList) {
 		List<Order> customerList = new ArrayList<Order>();
 		Br_001 br = new Br_001();
-		if(br.excellentCustomer(orderList)) {
-			customerList.addAll(orderList);
+		for(Order o : orderList) {
+			List<Order> oList = new ArrayList<Order>();
+			oList.add(o);
+			if(!br.excellentCustomer(oList)) {
+				customerList.addAll(oList);
+			}
 		}
 		return customerList;
 	}

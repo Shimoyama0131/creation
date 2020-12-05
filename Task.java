@@ -43,7 +43,6 @@ public class Task {
             // API-001 ”»’èŒ‹‰Ê‚ðŽæ“¾
             Api_001 api = new Api_001();
             System.out.println(api.result(api.excellentOrderList(rs)));
-            
             rs.close();
             oos.close();
             
@@ -64,8 +63,6 @@ public class Task {
             	System.out.print(or.getMoney());
             	System.out.println();
             }
-            
-            
             rss.close();
             uis.close();
             

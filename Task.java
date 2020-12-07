@@ -33,6 +33,7 @@ public class Task {
             // データベースに対する処理
             System.out.println("データベースに接続に成功");
             
+            /***** API-001 *****/
             int userId = 1;
             Sql sql = new Sql();
             // SELECT 発注済注文
@@ -46,6 +47,7 @@ public class Task {
             rs.close();
             oos.close();
             
+            /****** Batch-001 ******/
             // SELECT ユーザID
             PreparedStatement uis = sql.userIdSelect(conn);
             // 結果
@@ -53,18 +55,27 @@ public class Task {
             
             // Batch-001 優良顧客リストを取得
             Batch_001 bh = new Batch_001();
-            for(Order or : bh.result(bh.excellentCustomerList(rss))) {
-            	System.out.print(or.getUser_id());
-            	System.out.print(",");
-            	System.out.print(or.getOrder_id());
-            	System.out.print(",");
-            	System.out.print(or.getOrder_status());
-            	System.out.print(",");
-            	System.out.print(or.getMoney());
-            	System.out.println();
+            
+            // SELECT 顧客情報
+            List<Customer> customerList = new ArrayList<>();
+            while(rss.next()) {
+            	PreparedStatement customerInf = sql.customerInf(conn, Integer.valueOf(rss.getString("USER_ID")).intValue());
+                ResultSet ci = customerInf.executeQuery();
+                customerList.addAll(bh.customerInformationList(rss, ci));
+                
+                ci.close();
+                customerInf.close();
             }
-            rss.close();
-            uis.close();
+          
+          for(Customer c : customerList) {
+        	System.out.print(c.getUser_id());
+        	System.out.print(",");
+        	System.out.print(c.getUser_name());
+        	System.out.println();
+        }
+          
+          rss.close();
+          uis.close();
             
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

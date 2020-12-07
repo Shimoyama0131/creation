@@ -29,13 +29,31 @@ public class Sql {
 	 * 
 	 */
 	public PreparedStatement userIdSelect(Connection conn) {
-		PreparedStatement userId = null;
+		PreparedStatement ps = null;
 		try {
-			userId = conn.prepareStatement("SELECT * FROM mydb.order WHERE ORDER_STATUS='ORDERED'");
+			ps = conn.prepareStatement("SELECT * FROM mydb.order WHERE ORDER_STATUS='ORDERED'");
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return userId;
+		return ps;
+	}
+	
+	/**
+	 * ユーザ検索
+	 * 
+	 * @param conn DB接続情報
+	 * @param userId ユーザID
+	 * @return 顧客情報
+	 * 
+	 */
+	public PreparedStatement customerInf(Connection conn, int userId) {
+		PreparedStatement ps = null;
+		try {
+			ps = conn.prepareStatement("SELECT * FROM mydb.user WHERE USER_ID=" + userId);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return ps;
 	}
 	
 }
